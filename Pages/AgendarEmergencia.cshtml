@@ -1,0 +1,19 @@
+﻿@page
+@model CitasEnfermeria.Pages.AgendarEmergenciaModel
+@{
+    ViewData["Title"] = "Cita de Emergencia";
+}
+
+<h1>Agendar Cita de Emergencia</h1>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success">@TempData["Mensaje"]</div>
+}
+
+<form method="post">
+    <label for="IdEstudianteSeleccionado">Estudiante:</label>
+    <select asp-for="IdEstudianteSeleccionado" asp-items="@(new SelectList(Model.Estudiantes, "Id", "Nombre"))" class="form-select"></select>
+    <br />
+    <button type="submit" class="btn btn-danger">Agendar Emergencia</button>
+</form>

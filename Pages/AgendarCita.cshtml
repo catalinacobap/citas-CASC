@@ -1,0 +1,29 @@
+﻿@page
+@model CitasEnfermeria.Pages.AgendarCitaModel
+@{
+    ViewData["Title"] = "Agendar Cita";
+}
+
+<h1>Agendar Cita</h1>
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success">@TempData["Mensaje"]</div>
+}
+
+
+<form method="post">
+    <div>
+        <label>Horario disponible:</label>
+        <select asp-for="HorarioSeleccionadoId" class="form-select">
+            @foreach (var horario in Model.HorariosDisponibles)
+            {
+                <option value="@horario.Id">
+                    @horario.Fecha.ToShortDateString() @horario.Hora
+                </option>
+            }
+        </select>
+    </div>
+
+    <br />
+    <button type="submit" class="btn btn-primary">Agendar</button>
+</form>
