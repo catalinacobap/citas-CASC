@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CitasEnfermeria")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f91039fd62d6a62a9c52311b5cbff7a8ef749dfb")]
 [assembly: System.Reflection.AssemblyProductAttribute("CitasEnfermeria")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CitasEnfermeria")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

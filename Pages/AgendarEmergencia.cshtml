@@ -6,14 +6,66 @@
 
 <h1>Agendar Cita de Emergencia</h1>
 
-@if (TempData["Mensaje"] != null)
-{
-    <div class="alert alert-success">@TempData["Mensaje"]</div>
-}
+<!-- Modal estilo Apple -->
+<div id="appleModal" class="apple-modal" style="display:none;">
+    <div class="apple-modal-content">
+        <span id="appleModalClose" class="apple-modal-close">&times;</span>
+        <div id="appleModalMessage"></div>
+    </div>
+</div>
+
+<label for="busquedaEstudiante">Buscar estudiante:</label>
+<input type="text" id="busquedaEstudiante" class="form-control mb-2" placeholder="Escribe el nombre..." autocomplete="off" />
 
 <form method="post">
     <label for="IdEstudianteSeleccionado">Estudiante:</label>
-    <select asp-for="IdEstudianteSeleccionado" asp-items="@(new SelectList(Model.Estudiantes, "Id", "Nombre"))" class="form-select"></select>
+    <select asp-for="IdEstudianteSeleccionado" id="selectEstudiante" class="form-select">
+        @foreach (var estudiante in Model.Estudiantes)
+        {
+            <option value="@estudiante.Id">@estudiante.Nombre</option>
+        }
+    </select>
     <br />
     <button type="submit" class="btn btn-danger">Agendar Emergencia</button>
 </form>
+
+@section Scripts {
+<script>
+    // Modal estilo Apple
+    function showAppleModal(message) {
+        document.getElementById('appleModalMessage').innerHTML = message;
+        document.getElementById('appleModal').style.display = 'block';
+    }
+    document.getElementById('appleModalClose').onclick = function() {
+        document.getElementById('appleModal').style.display = 'none';
+    };
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('appleModal')) {
+            document.getElementById('appleModal').style.display = 'none';
+        }
+    };
+    @if (TempData["Mensaje"] != null)
+    {
+        <text>showAppleModal('@TempData["Mensaje"]');</text>
+    }
+
+    // Búsqueda de estudiantes
+    const estudiantes = [
+        @foreach (var estudiante in Model.Estudiantes)
+        {
+            <text>{ id: @estudiante.Id, nombre: '@estudiante.Nombre'.toLowerCase() },</text>
+        }
+    ];
+    const selectEstudiante = document.getElementById('selectEstudiante');
+    document.getElementById('busquedaEstudiante').addEventListener('input', function() {
+        const filtro = this.value.toLowerCase();
+        selectEstudiante.innerHTML = '';
+        estudiantes.filter(e => e.nombre.includes(filtro)).forEach(e => {
+            const option = document.createElement('option');
+            option.value = e.id;
+            option.textContent = e.nombre.charAt(0).toUpperCase() + e.nombre.slice(1);
+            selectEstudiante.appendChild(option);
+        });
+    });
+</script>
+}

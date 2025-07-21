@@ -146,13 +146,14 @@
 /Users/catalinacobaleda/Code/proyecto-enfermeria/CitasEnfermeria/obj/Debug/net9.0/CitasEnfermeria.MvcApplicationPartsAssemblyInfo.cache
 /Users/catalinacobaleda/Code/proyecto-enfermeria/CitasEnfermeria/obj/Debug/net9.0/CitasEnfermeria.RazorAssemblyInfo.cache
 /Users/catalinacobaleda/Code/proyecto-enfermeria/CitasEnfermeria/obj/Debug/net9.0/CitasEnfermeria.RazorAssemblyInfo.cs
+/Users/catalinacobaleda/Code/proyecto-enfermeria/CitasEnfermeria/obj/Debug/net9.0/CitasEnfermeria.sourcelink.json
 /Users/catalinacobaleda/Code/proyecto-enfermeria/CitasEnfermeria/obj/Debug/net9.0/rjimswa.dswa.cache.json
 /Users/catalinacobaleda/Code/proyecto-enfermeria/CitasEnfermeria/obj/Debug/net9.0/rjsmrazor.dswa.cache.json
 /Users/catalinacobaleda/Code/proyecto-enfermeria/CitasEnfermeria/obj/Debug/net9.0/rjsmcshtml.dswa.cache.json
 /Users/catalinacobaleda/Code/proyecto-enfermeria/CitasEnfermeria/obj/Debug/net9.0/scopedcss/Pages/Shared/_Layout.cshtml.rz.scp.css
 /Users/catalinacobaleda/Code/proyecto-enfermeria/CitasEnfermeria/obj/Debug/net9.0/scopedcss/bundle/CitasEnfermeria.styles.css
 /Users/catalinacobaleda/Code/proyecto-enfermeria/CitasEnfermeria/obj/Debug/net9.0/scopedcss/projectbundle/CitasEnfermeria.bundle.scp.css
-/Users/catalinacobaleda/Code/proyecto-enfermeria/CitasEnfermeria/obj/Debug/net9.0/compressed/hyov2hhljk-b9sayid5wm.gz
+/Users/catalinacobaleda/Code/proyecto-enfermeria/CitasEnfermeria/obj/Debug/net9.0/compressed/hyov2hhljk-wekml8876w.gz
 /Users/catalinacobaleda/Code/proyecto-enfermeria/CitasEnfermeria/obj/Debug/net9.0/compressed/td72gd6osb-61n19gt1b8.gz
 /Users/catalinacobaleda/Code/proyecto-enfermeria/CitasEnfermeria/obj/Debug/net9.0/compressed/5izv85q5ss-xtxxf3hu2r.gz
 /Users/catalinacobaleda/Code/proyecto-enfermeria/CitasEnfermeria/obj/Debug/net9.0/compressed/xii8j4cxs7-bqjiyaj88i.gz
