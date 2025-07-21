@@ -32,6 +32,14 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWdlbmRhckNpdGEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/catalinacobaleda/Code/proyecto-enfermeria/CitasEnfermeria/Pages/AgendarCitaProfesor.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWdlbmRhckNpdGFQcm9mZXNvci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/catalinacobaleda/Code/proyecto-enfermeria/CitasEnfermeria/Pages/AgendarCitasAdmin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWdlbmRhckNpdGFzQWRtaW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/catalinacobaleda/Code/proyecto-enfermeria/CitasEnfermeria/Pages/AgendarEmergencia.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWdlbmRhckVtZXJnZW5jaWEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

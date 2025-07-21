@@ -5,11 +5,14 @@
 }
 
 <h1>Agendar Cita</h1>
-@if (TempData["Mensaje"] != null)
-{
-    <div class="alert alert-success">@TempData["Mensaje"]</div>
-}
 
+<!-- Modal estilo Apple -->
+<div id="appleModal" class="apple-modal" style="display:none;">
+    <div class="apple-modal-content">
+        <span id="appleModalClose" class="apple-modal-close">&times;</span>
+        <div id="appleModalMessage"></div>
+    </div>
+</div>
 
 <form method="post">
     <div>
@@ -27,3 +30,122 @@
     <br />
     <button type="submit" class="btn btn-primary">Agendar</button>
 </form>
+
+<!-- Botón para agendar emergencia (solo visible para profesores) -->
+@if (Model.EsProfesor)
+{
+    <button id="btnEmergencia" class="btn btn-danger mt-4">Agendar Emergencia</button>
+}
+
+<!-- Modal de búsqueda de emergencia (solo para profesores) -->
+@if (Model.EsProfesor)
+{
+    <div id="modalEmergencia" class="apple-modal" style="display:none;">
+        <div class="apple-modal-content">
+            <span id="closeEmergencia" class="apple-modal-close">&times;</span>
+            <h5>Buscar estudiante para emergencia</h5>
+            <input type="text" id="busquedaEstudiante" class="form-control mb-2" placeholder="Escribe el nombre..." autocomplete="off" />
+            <ul id="listaEstudiantes" class="list-group mb-2"></ul>
+            <div id="emergenciaConfirmacion"></div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+<script>
+    function showAppleModal(message) {
+        document.getElementById('appleModalMessage').innerHTML = message;
+        document.getElementById('appleModal').style.display = 'block';
+    }
+    document.getElementById('appleModalClose').onclick = function() {
+        document.getElementById('appleModal').style.display = 'none';
+    };
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('appleModal')) {
+            document.getElementById('appleModal').style.display = 'none';
+        }
+    };
+    @if (Model.ErrorCita != null)
+    {
+        <text>showAppleModal('@Model.ErrorCita');</text>
+    }
+    @if (TempData["Mensaje"] != null)
+    {
+        <text>showAppleModal('@TempData["Mensaje"]');</text>
+    }
+
+    // Emergencia modal y AJAX solo para profesores
+    @if (Model.EsProfesor)
+    {
+        <text>
+        const estudiantes = [
+            @foreach (var estudiante in Model.Estudiantes)
+            {
+                <text>{ id: @estudiante.Id, nombre: '@estudiante.Nombre'.toLowerCase() },</text>
+            }
+        ];
+        const btnEmergencia = document.getElementById('btnEmergencia');
+        const modalEmergencia = document.getElementById('modalEmergencia');
+        const closeEmergencia = document.getElementById('closeEmergencia');
+        const busquedaEstudiante = document.getElementById('busquedaEstudiante');
+        const listaEstudiantes = document.getElementById('listaEstudiantes');
+        const emergenciaConfirmacion = document.getElementById('emergenciaConfirmacion');
+
+        if (btnEmergencia) {
+            btnEmergencia.onclick = function() {
+                modalEmergencia.style.display = 'block';
+                busquedaEstudiante.value = '';
+                listaEstudiantes.innerHTML = '';
+                emergenciaConfirmacion.innerHTML = '';
+            };
+        }
+        closeEmergencia.onclick = function() {
+            modalEmergencia.style.display = 'none';
+        };
+        window.onclick = function(event) {
+            if (event.target == modalEmergencia) {
+                modalEmergencia.style.display = 'none';
+            }
+        };
+        busquedaEstudiante.addEventListener('input', function() {
+            const filtro = this.value.toLowerCase();
+            listaEstudiantes.innerHTML = '';
+            emergenciaConfirmacion.innerHTML = '';
+            estudiantes.filter(e => e.nombre.includes(filtro)).forEach(e => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item list-group-item-action';
+                li.textContent = e.nombre.charAt(0).toUpperCase() + e.nombre.slice(1);
+                li.style.cursor = 'pointer';
+                li.onclick = function() {
+                    // Agendar emergencia vía AJAX
+                    emergenciaConfirmacion.innerHTML = 'Agendando...';
+                    fetch(window.location.pathname + '?handler=AgendarEmergencia&usuario=@Model.UsuarioActual', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ IdEstudiante: e.id })
+                    })
+                    .then(async response => {
+                        if (!response.ok) {
+                            emergenciaConfirmacion.innerHTML = '<span style="color:red">HTTP error! status: ' + response.status + '</span>';
+                            return;
+                        }
+                        const text = await response.text();
+                        const data = text ? JSON.parse(text) : {};
+                        if (data.success) {
+                            emergenciaConfirmacion.innerHTML = '<span style="color:green">' + data.message + '</span>';
+                            listaEstudiantes.innerHTML = '';
+                        } else {
+                            emergenciaConfirmacion.innerHTML = '<span style="color:red">' + (data.message || 'Error desconocido') + '</span>';
+                        }
+                    })
+                    .catch((err) => {
+                        emergenciaConfirmacion.innerHTML = '<span style="color:red">Error al agendar emergencia: ' + err + '</span>';
+                    });
+                };
+                listaEstudiantes.appendChild(li);
+            });
+        });
+        </text>
+    }
+</script>
+}

@@ -29,3 +29,50 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+/* Modal estilo Apple */
+.apple-modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.3);
+  backdrop-filter: blur(2px);
+}
+.apple-modal-content {
+  background: #f9f9f9;
+  margin: 10% auto;
+  padding: 2rem 2.5rem;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: #222;
+  animation: appleModalFadeIn 0.3s;
+}
+.apple-modal-close {
+  color: #aaa;
+  float: right;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: -0.5rem;
+  margin-right: -0.5rem;
+  transition: color 0.2s;
+}
+.apple-modal-close:hover,
+.apple-modal-close:focus {
+  color: #333;
+  text-decoration: none;
+  cursor: pointer;
+}
+@keyframes appleModalFadeIn {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
