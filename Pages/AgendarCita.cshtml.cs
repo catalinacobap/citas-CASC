@@ -15,7 +15,7 @@ namespace CitasEnfermeria.Pages
             _context = context;
         }
 
-        public string UsuarioActual { get; set; }
+        public string UsuarioActual { get; set; } = string.Empty;
 
         public bool EsProfesor { get; set; }
 
@@ -82,6 +82,7 @@ namespace CitasEnfermeria.Pages
             if (persona == null)
             {
                 ModelState.AddModelError("", "Usuario no válido.");
+                await RecargarHorariosDisponibles(persona);
                 return Page();
             }
 
@@ -90,10 +91,12 @@ namespace CitasEnfermeria.Pages
             if (horario == null || horario.Estado != "Disponible")
             {
                 ModelState.AddModelError("", "El horario ya no está disponible.");
+                await RecargarHorariosDisponibles(persona);
                 return Page();
             }
 
             // Validación: solo un estudiante puede tener una cita normal por día
+            // IMPORTANTE: Esta validación debe hacerse ANTES de modificar el horario
             if (persona.Tipo == "Estudiante")
             {
                 var fechaCita = horario.Fecha;
@@ -105,10 +108,12 @@ namespace CitasEnfermeria.Pages
                 if (yaTieneCita)
                 {
                     ErrorCita = "Ya tienes una cita agendada para este día. Solo puedes agendar una cita por día.";
+                    await RecargarHorariosDisponibles(persona);
                     return Page();
                 }
             }
 
+            // Solo si todas las validaciones pasan, procedemos a modificar la base de datos
             var nuevaCita = new EnfCita
             {
                 IdPersona = persona.Id,
@@ -127,6 +132,36 @@ namespace CitasEnfermeria.Pages
 
             TempData["Mensaje"] = "✅ Cita agendada correctamente.";
             return RedirectToPage("AgendarCita", new { usuario = UsuarioActual });
+        }
+
+        private async Task RecargarHorariosDisponibles(EnfPersona? persona)
+        {
+            var hoy = DateOnly.FromDateTime(DateTime.Today);
+
+            IQueryable<EnfHorario> query = _context.EnfHorarios
+                .Where(h => h.Estado == "Disponible");
+
+            if (persona?.Tipo == "Estudiante")
+            {
+                query = query.Where(h => h.Fecha == hoy);
+            }
+            else if (persona?.Tipo == "Funcionario" || persona?.Tipo == "Profesor")
+            {
+                query = query.Where(h => h.Fecha >= hoy);
+            }
+
+            HorariosDisponibles = await query
+                .OrderBy(h => h.Fecha)
+                .ThenBy(h => h.Hora)
+                .ToListAsync();
+
+            if (EsProfesor)
+            {
+                Estudiantes = await _context.EnfPersonas
+                    .Where(p => p.Tipo == "Estudiante")
+                    .OrderBy(p => p.Nombre)
+                    .ToListAsync();
+            }
         }
 
         public class EmergenciaRequest { public int IdEstudiante { get; set; } }
